@@ -31,11 +31,11 @@ func loadPage(title string) (*Page, error) {
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	data := struct {
-		Title   string
-		Content string
+		Title string
+		Body  string
 	}{
-		Title:   "Wikiwiki Gogo Home Page",
-		Content: "This is the home page content.",
+		Title: "Wikiwiki Gogo Home Page",
+		Body:  "This is the home page content.",
 	}
 	tmpl, err := template.ParseFiles("home.html")
 	if err != nil {
@@ -67,6 +67,8 @@ func editHandler(w http.ResponseWriter, r *http.Request, title string) {
 	}
 	renderTemplate(w, "edit", p)
 }
+
+var pageList = []string{"socks", "bananas"}
 
 func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 	body := r.FormValue("body")
