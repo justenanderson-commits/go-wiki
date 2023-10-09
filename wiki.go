@@ -27,6 +27,13 @@ func loadPage(title string) (*Page, error) {
 	return &Page{Title: title, Body: body}, nil
 }
 
+// Add a homeHandler function?
+// Should title be hard-coded?
+
+// func homeHandler(w http.ResponseWriter, r *http.Request, title string) {
+// p, err := loadPage(title)
+// }
+
 func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
 	p, err := loadPage(title)
 	if err != nil {
@@ -79,6 +86,7 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.Handl
 }
 
 func main() {
+	// http.HandleFunc("/home/", makeHandler(homeHandler))
 	http.HandleFunc("/view/", makeHandler(viewHandler))
 	http.HandleFunc("/edit/", makeHandler(editHandler))
 	http.HandleFunc("/save/", makeHandler(saveHandler))
