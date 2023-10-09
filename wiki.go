@@ -31,11 +31,13 @@ func loadPage(title string) (*Page, error) {
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	data := struct {
-		Title string
-		Body  string
+		Title    string
+		Body     string
+		PageList []string
 	}{
-		Title: "Wikiwiki Gogo Home Page",
-		Body:  "This is the home page content.",
+		Title:    "Wikiwiki Gogo Home Page",
+		Body:     "This is the home page content.",
+		PageList: pageList,
 	}
 	tmpl, err := template.ParseFiles("home.html")
 	if err != nil {
@@ -68,9 +70,11 @@ func editHandler(w http.ResponseWriter, r *http.Request, title string) {
 	renderTemplate(w, "edit", p)
 }
 
-var pageList = []string{"socks", "bananas"}
+var pageList = []string{"socks", "bananas", "place holder 1", "place holder 2"}
 
+// Need to add logic to push the new page titles into the pageList slice
 func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
+	pageList = append(pageList, title)
 	body := r.FormValue("body")
 	p := &Page{Title: title, Body: []byte(body)}
 	err := p.save()
